@@ -21,7 +21,7 @@ If you would like to install the development version from [GitHub](https://githu
 ``` r
 if(!require("remotes"))
    install.packages("remotes") # if necessary
-library(remotes
+library(remotes)
 install_github("RHReynolds/colochelpR")
 ```
 
