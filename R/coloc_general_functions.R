@@ -171,10 +171,14 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 #' @param df_2_name df2 name that will be added to results list (e.g. "eQTL")
 #' @param df1_path path to df1
 #' @param df2_path path to df2
+#' @param p1 prior probability a SNP is associated with trait 1, set to coloc.abf default of 1e-4
+#' @param p2 prior probability a SNP is associated with trait 2, set to coloc.abf default of 1e-4
+#' @param p12 prior probability a SNP is associated with both traits, set to coloc.abf default of 1e-5
 #' @return list containing coloc results annotated or NULL if there are no
 #'   overlapping SNPs or all SNPs are removed through harmonisation
 get_coloc_results <- function(df1, df2, harmonise = F, df1_type, df2_type, df1_beta_or_pval, df2_beta_or_pval, df1_N = NA, df2_N = NA, df_1_propor_cases,
-                              annotate_signif_SNP_df1_df2 = F, key_cols, df_1_name, df_2_name, df1_path, df2_path){
+                              annotate_signif_SNP_df1_df2 = F, key_cols, df_1_name, df_2_name, df1_path, df2_path,
+                              p1 = 1e-04, p2 = 1e-04, p12 = 1e-05){
 
   df1_df2_joined <-
     join_coloc_datasets(df1 = df1, df2 = df2, harmonise = harmonise)
@@ -195,7 +199,8 @@ get_coloc_results <- function(df1, df2, harmonise = F, df1_type, df2_type, df1_b
                   df2_beta_or_pval = df2_beta_or_pval,
                   df1_N = df1_N,
                   df2_N = df2_N,
-                  df_1_propor_cases = df_1_propor_cases)
+                  df_1_propor_cases = df_1_propor_cases,
+                  p1 = p1, p2 = p2, p12 = p12)
 
   coloc_results_annotated <-
     annotate_coloc_results(coloc_results = coloc_results,
@@ -369,7 +374,8 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
 
 }
 
-run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, df2_beta_or_pval, df1_N = NA, df2_N = NA, df_1_propor_cases){
+run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, df2_beta_or_pval, df1_N = NA, df2_N = NA, df_1_propor_cases,
+                          p1 = p1, p2 = p2, p12 = p12){
 
   if(df1_type == "cc" && df2_type == "quant"){
 
@@ -384,13 +390,15 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    beta = df1_df2_joined[["beta_1"]],
                                    varbeta = df1_df2_joined[["varbeta_1"]],
                                    MAF = df1_df2_joined[["maf_1"]],
-                                   s = df_1_propor_cases),
+                                   s = df_1_propor_cases,
+                                   N = df1_N),
                   dataset2 = list( type = "quant",
                                    snp = df1_df2_joined[["SNP"]],
                                    beta = df1_df2_joined[["beta_2"]],
                                    varbeta = df1_df2_joined[["varbeta_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }else if(df1_beta_or_pval == "beta" & df2_beta_or_pval == "pval"){
@@ -400,12 +408,14 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    beta = df1_df2_joined[["beta_1"]],
                                    varbeta = df1_df2_joined[["varbeta_1"]],
                                    MAF = df1_df2_joined[["maf_1"]],
-                                   s = df_1_propor_cases),
+                                   s = df_1_propor_cases,
+                                   N = df1_N),
                   dataset2 = list( type = "quant",
                                    snp = df1_df2_joined[["SNP"]],
                                    pvalues = df1_df2_joined[["p.value_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }else if(df1_beta_or_pval == "pval" & df2_beta_or_pval == "beta"){
@@ -414,13 +424,15 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    snp = df1_df2_joined[["SNP"]],
                                    pvalues = df1_df2_joined[["p.value_1"]],
                                    MAF = df1_df2_joined[["maf_1"]],
-                                   s = df_1_propor_cases),
+                                   s = df_1_propor_cases,
+                                   N = df1_N),
                   dataset2 = list( type = "quant",
                                    snp = df1_df2_joined[["SNP"]],
                                    beta = df1_df2_joined[["beta_2"]],
                                    varbeta = df1_df2_joined[["varbeta_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }else{
@@ -429,12 +441,14 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    snp = df1_df2_joined[["SNP"]],
                                    pvalues = df1_df2_joined[["p.value_1"]],
                                    MAF = df1_df2_joined[["maf_1"]],
-                                   s = df_1_propor_cases),
+                                   s = df_1_propor_cases,
+                                   N = df1_N),
                   dataset2 = list( type = "quant",
                                    snp = df1_df2_joined[["SNP"]],
                                    pvalues = df1_df2_joined[["p.value_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }
@@ -456,7 +470,8 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    beta = df1_df2_joined[["beta_2"]],
                                    varbeta = df1_df2_joined[["varbeta_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }else if(df1_beta_or_pval == "beta" & df2_beta_or_pval == "pval"){
@@ -471,7 +486,8 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    snp = df1_df2_joined[["SNP"]],
                                    pvalues = df1_df2_joined[["p.value_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }else if(df1_beta_or_pval == "pval" & df2_beta_or_pval == "beta"){
@@ -486,7 +502,8 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    beta = df1_df2_joined[["beta_2"]],
                                    varbeta = df1_df2_joined[["varbeta_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }else{
@@ -500,7 +517,8 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
                                    snp = df1_df2_joined[["SNP"]],
                                    pvalues = df1_df2_joined[["p.value_2"]],
                                    MAF = df1_df2_joined[["maf_2"]],
-                                   N = df2_N)
+                                   N = df2_N),
+                  p1 = p1, p2 = p2, p12 = p12
         )
 
     }
