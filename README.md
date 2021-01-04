@@ -1,10 +1,11 @@
-# Coloc helper functions
 <!-- badges: start -->
 
 [![Lifecycle:
 dormant](https://img.shields.io/badge/lifecycle-dormant-blue.svg)](https://www.tidyverse.org/lifecycle/#dormant)
 
 <!-- badges: end -->
+
+# Coloc helper functions
 
 Helper/wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc) & associated analyses.
 
