@@ -1,14 +1,18 @@
-Package: colocRHR
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Package: colochelpR
+Title: `colochelpR` is a home for helper functions for executing coloc.
+Version: 0.99.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+    person(given = "David",
+           family = "Zhang",
+           role = c("aut"),
+           email = "dzhang32@gmail.com")
+    person(given = "Regina",
+           family = "Reynolds",
+           role = c("cre", "ctb"),
+           email = "regina.reynolds.16@ucl.ac.uk")
+Description: To be added
+License: MIT + file LICENSE
+BugReports: https://github.com/RHReynolds/colochelpR/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
@@ -19,4 +23,5 @@ Imports:
     stringr,
     biomaRt,
     rtracklayer,
-    GenomicRanges
+    GenomicRanges,
+    coloc (>= 4.0.0)
