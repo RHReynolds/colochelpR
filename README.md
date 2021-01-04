@@ -4,7 +4,6 @@
 [![Lifecycle:
 dormant](https://img.shields.io/badge/lifecycle-dormant-blue.svg)](https://www.tidyverse.org/lifecycle/#dormant)
 
-
 <!-- badges: end -->
 
 Helper/wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc) & associated analyses.
