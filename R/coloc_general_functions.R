@@ -14,7 +14,7 @@
 #' @return the full path to the new folder
 make_results_dir <- function(results_path, folder_name){
 
-  results_dir_path <- str_c(results_path, "/", folder_name)
+  results_dir_path <- stringr::str_c(results_path, "/", folder_name)
 
   if(!dir.exists(results_dir_path)){
 
@@ -22,7 +22,7 @@ make_results_dir <- function(results_path, folder_name){
 
   }else {
 
-    print(str_c(results_dir_path, " directory already exists.."))
+    print(stringr::str_c(results_dir_path, " directory already exists.."))
 
   }
 
@@ -152,7 +152,7 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 #'
 #' @param df1 first formatted dataset for coloc analysis
 #' @param df2 second formatted dataset for coloc analysis
-#' @param harmonise lgl - whether you would like to modify the sign of the beta
+#' @param harmonise logical. Whether you would like to modify the sign of the beta
 #'   so both datasets are with respect to the same allele
 #' @param df1_type either "quant" or "cc"
 #' @param df2_type either "quant"
@@ -162,6 +162,7 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 #'   to use betas or pvals in the coloc analysis
 #' @param df1_N Number of samples in df1 (only required for quant)
 #' @param df2_N Number of samples in df2 (only required for quant)
+#' @param df_1_propor_cases Option to put in the proportion of cases for a GWAS in \code{coloc::coloc.abf()}
 #' @param annotate_signif_SNP_df1_df2 lgl - whether to annotate results with the
 #'   signif SNPs from df1/df2 and from coloc
 #' @param key_cols all columns needed to uniquely identify analysis - requires
@@ -228,10 +229,10 @@ save_coloc_results <- function(coloc_results_annotated, results_dir_path){
     keys <-
       coloc_results_annotated[["keys"]] %>%
       unlist() %>%
-      str_c(collapse = "_")
+      stringr::str_c(collapse = "_")
 
     save(coloc_results_annotated,
-         file = str_c(results_dir_path, "/", keys, ".rda"))
+         file = stringr::str_c(results_dir_path, "/", keys, ".rda"))
 
   }else{
 
@@ -261,7 +262,7 @@ merge_coloc_summaries <- function(results_folder_path, add_signif_SNP = F, recur
     purrr::map(~extract_coloc_summary(coloc_result_path = ., add_signif_SNP))
 
   coloc_results_summaries_w_keys_all <-
-    do.call(bind_rows, coloc_results_summaries_w_keys)
+    do.call(dplyr::bind_rows, coloc_results_summaries_w_keys)
 
   coloc_results_summaries_w_keys_all_w_sum_ratio_PPH4_PPH3 <-
     coloc_results_summaries_w_keys_all %>%
@@ -276,15 +277,15 @@ merge_coloc_summaries <- function(results_folder_path, add_signif_SNP = F, recur
 summarise_coloc_results <- function(coloc_results_merged){
 
   num_tests_total <- coloc_results_merged %>% nrow()
-  PPH4_ab_0.75 <- coloc_results_merged %>% filter(PP.H4.abf >= 0.75) %>% nrow()
-  PPH4_ab_0.9 <- coloc_results_merged %>% filter(PP.H4.abf >= 0.9) %>% nrow()
-  sum_PPH3_PPH4_ab_0.8_ratio_PPH4_PPH3_ab_2 <- coloc_results_merged %>% filter(sum_PPH3_PPH4 >= 0.8, ratio_PPH4_PPH3 >= 2) %>% nrow()
-  sum_PPH3_PPH4_ab_0.8_ratio_PPH4_PPH3_ab_5 <- coloc_results_merged %>% filter(sum_PPH3_PPH4 >= 0.8, ratio_PPH4_PPH3 >= 5) %>% nrow()
+  PPH4_ab_0.75 <- coloc_results_merged %>% dplyr::filter(PP.H4.abf >= 0.75) %>% nrow()
+  PPH4_ab_0.9 <- coloc_results_merged %>% dplyr::filter(PP.H4.abf >= 0.9) %>% nrow()
+  sum_PPH3_PPH4_ab_0.8_ratio_PPH4_PPH3_ab_2 <- coloc_results_merged %>% dplyr::filter(sum_PPH3_PPH4 >= 0.8, ratio_PPH4_PPH3 >= 2) %>% nrow()
+  sum_PPH3_PPH4_ab_0.8_ratio_PPH4_PPH3_ab_5 <- coloc_results_merged %>% dplyr::filter(sum_PPH3_PPH4 >= 0.8, ratio_PPH4_PPH3 >= 5) %>% nrow()
 
   summary_results <-
     data_frame(`Cut off` = c("Number tests total", "PPH4 above 0.75", "PPH4 above 0.90", "PPH4 + PPH3 above 0.8 & ratio PPH4/PPH3 above 2", "PPH4 + PPH3 above 0.8 & ratio PPH4/PPH3 above 5"),
              `Number of results` = c(num_tests_total, PPH4_ab_0.75, PPH4_ab_0.9, sum_PPH3_PPH4_ab_0.8_ratio_PPH4_PPH3_ab_2, sum_PPH3_PPH4_ab_0.8_ratio_PPH4_PPH3_ab_5)) %>%
-    ggtexttable(rows = NULL)
+    ggpubr::ggtexttable(rows = NULL)
 
   return(summary_results)
 
@@ -305,13 +306,13 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
 
   df1_overlap <-
     df1 %>%
-    semi_join(df2, by = "SNP") %>%
-    arrange(SNP)
+    dplyr::semi_join(df2, by = "SNP") %>%
+    dplyr::arrange(SNP)
 
   df2_overlap <-
     df2 %>%
-    semi_join(df1, by = "SNP") %>%
-    arrange(SNP)
+    dplyr::semi_join(df1, by = "SNP") %>%
+    dplyr::arrange(SNP)
 
   # incase of no SNPs overlapping
   if(nrow(df2_overlap) == 0){
@@ -336,9 +337,9 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
     df1_overlap_harmonised <-
     df1_overlap_harmonised_list %>%
     .[[1]] %>%
-      mutate(REF_Al_1 = NULL,
+      dplyr::mutate(REF_Al_1 = NULL,
              REF_Al_2 = NULL) %>%
-      arrange(SNP)
+      dplyr::arrange(SNP)
 
     # incase of all overlapping SNPs removed through harmonisation
     if(nrow(df1_overlap_harmonised) == 0){
@@ -349,11 +350,11 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
 
     df2_overlap_harmonised <-
       df2_overlap %>%
-      semi_join(df1_overlap_harmonised, by = "SNP") %>%
-      arrange(SNP)
+      dplyr::semi_join(df1_overlap_harmonised, by = "SNP") %>%
+      dplyr::arrange(SNP)
 
-    colnames(df1_overlap_harmonised) <- str_c(colnames(df1_overlap_harmonised), "_1")
-    colnames(df2_overlap_harmonised) <- str_c(colnames(df2_overlap_harmonised), "_2")
+    colnames(df1_overlap_harmonised) <- stringr::str_c(colnames(df1_overlap_harmonised), "_1")
+    colnames(df2_overlap_harmonised) <- stringr::str_c(colnames(df2_overlap_harmonised), "_2")
 
     df1_df2_joined <-
       inner_join(df1_overlap_harmonised, df2_overlap_harmonised, by = c("SNP_1" = "SNP_2")) %>%
@@ -363,8 +364,8 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
 
   }
 
-  colnames(df1_overlap) <- str_c(colnames(df1_overlap), "_1")
-  colnames(df2_overlap) <- str_c(colnames(df2_overlap), "_2")
+  colnames(df1_overlap) <- stringr::str_c(colnames(df1_overlap), "_1")
+  colnames(df2_overlap) <- stringr::str_c(colnames(df2_overlap), "_2")
 
   df1_df2_joined <-
     inner_join(df1_overlap, df2_overlap, by = c("SNP_1" = "SNP_2")) %>%
@@ -546,7 +547,7 @@ annotate_coloc_results <- function(coloc_results, df1_df2_joined, annotate_signi
 
   coloc_results[["signif_coloc_SNP"]] <-
     coloc_results[["results"]] %>%
-    filter(SNP.PP.H4 == max(SNP.PP.H4)) %>%
+    dplyr::filter(SNP.PP.H4 == max(SNP.PP.H4)) %>%
     dplyr::select(snp, SNP.PP.H4) %>%
     left_join(df1_df2_joined, by = c("snp" = "SNP"))
 
@@ -556,12 +557,12 @@ annotate_coloc_results <- function(coloc_results, df1_df2_joined, annotate_signi
 
     coloc_results[["signif_df1_SNP"]] <-
       df1_df2_joined %>%
-      filter(as.numeric(p.value_1) == min(as.numeric(p.value_1))) %>%
+      dplyr::filter(as.numeric(p.value_1) == min(as.numeric(p.value_1))) %>%
       dplyr::select(SNP, contains("_1"))
 
     coloc_results[["signif_df2_SNP"]] <-
       df1_df2_joined %>%
-      filter(as.numeric(p.value_2) == min(as.numeric(p.value_2))) %>%
+      dplyr::filter(as.numeric(p.value_2) == min(as.numeric(p.value_2))) %>%
       dplyr::select(SNP, contains("_2"))
 
   }
@@ -590,32 +591,32 @@ extract_coloc_summary <- function(coloc_result_path, add_signif_SNP = F){
 
     signif_coloc_snp <-
       coloc_results_annotated[["signif_coloc_SNP"]] %>%
-      filter(!duplicated(p.value_1), !duplicated(p.value_2)) %>%
+      dplyr::filter(!duplicated(p.value_1), !duplicated(p.value_2)) %>%
       dplyr::select(snp, SNP.PP.H4,
                     beta_1, p.value_1,
                     beta_2, p.value_2)
 
     signif_df1_snp <-
       coloc_results_annotated[["signif_df1_SNP"]] %>%
-      filter(!duplicated(as.numeric(p.value_1))) %>%
+      dplyr::filter(!duplicated(as.numeric(p.value_1))) %>%
       dplyr::select(SNP, beta_1, p.value_1)
 
     signif_df2_snp <-
       coloc_results_annotated[["signif_df2_SNP"]] %>%
-      filter(!duplicated(as.numeric(p.value_2))) %>%
+      dplyr::filter(!duplicated(as.numeric(p.value_2))) %>%
       dplyr::select(SNP, beta_2, p.value_2)
 
     colnames(signif_coloc_snp) <-
       colnames(signif_coloc_snp) %>%
-      str_c("signif_coloc_snp_", .)
+      stringr::str_c("signif_coloc_snp_", .)
 
     colnames(signif_df1_snp) <-
       colnames(signif_df1_snp) %>%
-      str_c("signif_", df1_name, "_", .)
+      stringr::str_c("signif_", df1_name, "_", .)
 
     colnames(signif_df2_snp) <-
       colnames(signif_df2_snp) %>%
-      str_c("signif_", df2_name, "_", .)
+      stringr::str_c("signif_", df2_name, "_", .)
 
     coloc_results_summary_df_w_signif_snps <-
       coloc_results_summary_df_w_keys %>%

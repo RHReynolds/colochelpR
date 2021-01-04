@@ -1,5 +1,5 @@
 Package: colochelpR
-Title: `colochelpR` is a home for helper functions for executing coloc.
+Title: `colochelpR` is a home for helper functions for executing coloc
 Version: 0.99.0
 Authors@R: 
     person(given = "David",
@@ -10,12 +10,14 @@ Authors@R:
            family = "Reynolds",
            role = c("cre", "ctb"),
            email = "regina.reynolds.16@ucl.ac.uk")
-Description: To be added
+Description: The purpose of this package was to develop wrapper functions 
+  for execution of coloc for internal/collaborator use. As such, it is considered 
+  an experimental/dormant package.
 License: MIT + file LICENSE
 BugReports: https://github.com/RHReynolds/colochelpR/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Imports: 
     BSgenome,
     dplyr,
@@ -24,4 +26,9 @@ Imports:
     biomaRt,
     rtracklayer,
     GenomicRanges,
-    coloc (>= 4.0.0)
+    coloc (>= 4.0.0),
+    rlang,
+    purrr,
+    magrittr,
+    IRanges,
+    ggpubr

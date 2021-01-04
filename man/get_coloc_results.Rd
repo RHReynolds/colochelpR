@@ -20,7 +20,10 @@ get_coloc_results(
   df_1_name,
   df_2_name,
   df1_path,
-  df2_path
+  df2_path,
+  p1 = 1e-04,
+  p2 = 1e-04,
+  p12 = 1e-05
 )
 }
 \arguments{
@@ -28,7 +31,7 @@ get_coloc_results(
 
 \item{df2}{second formatted dataset for coloc analysis}
 
-\item{harmonise}{lgl - whether you would like to modify the sign of the beta
+\item{harmonise}{logical. Whether you would like to modify the sign of the beta
 so both datasets are with respect to the same allele}
 
 \item{df1_type}{either "quant" or "cc"}
@@ -45,6 +48,8 @@ to use betas or pvals in the coloc analysis}
 
 \item{df2_N}{Number of samples in df2 (only required for quant)}
 
+\item{df_1_propor_cases}{Option to put in the proportion of cases for a GWAS in \code{coloc::coloc.abf()}}
+
 \item{annotate_signif_SNP_df1_df2}{lgl - whether to annotate results with the
 signif SNPs from df1/df2 and from coloc}
 
@@ -59,6 +64,12 @@ respectively}
 \item{df1_path}{path to df1}
 
 \item{df2_path}{path to df2}
+
+\item{p1}{prior probability a SNP is associated with trait 1, set to coloc.abf default of 1e-4}
+
+\item{p2}{prior probability a SNP is associated with trait 2, set to coloc.abf default of 1e-4}
+
+\item{p12}{prior probability a SNP is associated with both traits, set to coloc.abf default of 1e-5}
 }
 \value{
 list containing coloc results annotated or NULL if there are no

@@ -13,7 +13,7 @@
 
 \item{filter}{Vector of filter to be used for BioMart query.}
 
-\item{values}{}
+\item{values}{Values of the filter, e.g. vector of ensembl gene IDs.}
 }
 \value{
 Original dataframe together with extracted biomart query.

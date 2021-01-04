@@ -15,7 +15,7 @@ convert_rs_to_loc(df, SNP_column, dbSNP)
 dependent on genome build)}
 }
 \value{
-
+Dataframe with rs ids and CHR:BP locations.
 }
 \description{
 Convert rs ids to CHR:BP locations.

@@ -1,6 +1,8 @@
 
 # Functions -------------------------------------------------------------------------------------------
 
+# This is only really meant to be used on the Ryten Lab server. If using different GWASs/different servers, data tidying will have to be performed by the user.
+
 get_GWAS_details <- function(){
 
   GWAS_details_df <-
@@ -24,7 +26,7 @@ get_GWAS_details <- function(){
       rsid_or_chr_pos = c("chr_pos", "both", "both", "both", "both", "both", "both", "both", "both", "both", "both", "both"),
       freq_present = c(T, F, F, F, T, T, T, T, T, T, T, T),
       build = c("hg19", "hg19", "hg19", "hg19", "hg19", NA, NA, "hg19", "hg19", "hg19", NA, "hg19")) %>%
-    mutate(n_total = n_cases + n_controls,
+    dplyr::mutate(n_total = n_cases + n_controls,
            ratio_cases = n_cases/n_total)
 
   return(GWAS_details_df)
@@ -37,34 +39,34 @@ tidy_GWAS <- function(GWAS, GWAS_disease){
     switch (GWAS_disease,
 
             PD = GWAS %>%
-              mutate(freq = as.numeric(freq),
+              dplyr::mutate(freq = as.numeric(freq),
                      maf = ifelse(freq > 0.5, 1-freq, freq),
                      GWAS = GWAS_disease) %>%
               dplyr::select(GWAS, SNP, beta = b, se, p.value = p, Al1 = A1, Al2 = A2, maf),
 
             AD = GWAS %>%
-              mutate(GWAS = GWAS_disease) %>%
+              dplyr::mutate(GWAS = GWAS_disease) %>%
               dplyr::select(GWAS, SNP = MarkerName, beta = Beta, se = SE, p.value = Pvalue, Al1 = Effect_allele, Al2 = Non_Effect_allele),
 
             SCZ = GWAS %>%
-              mutate(or = as.numeric(or),
+              dplyr::mutate(or = as.numeric(or),
                      beta = log(or, base = exp(1)),
                      GWAS = GWAS_disease) %>%
               dplyr::select(GWAS, SNP = snpid, beta, se, p.value = p, Al1 = a1, Al2 = a2),
 
             MS = GWAS %>%
               separate(col = "Alleles(Maj>Min)", into =  c("Al2", "Al1"), sep = ">") %>%
-              mutate(`OR(MinAllele)` = as.numeric(`OR(MinAllele)`),
+              dplyr::mutate(`OR(MinAllele)` = as.numeric(`OR(MinAllele)`),
                      LowerOR = as.numeric(LowerOR),
                      beta = log(`OR(MinAllele)`, base = exp(1)),
                      lower_beta = log(LowerOR, base = exp(1)),
                      se = abs((beta - lower_beta)/1.96),
                      GWAS = GWAS_disease) %>%
-              filter(!is.nan(se)) %>%
+              dplyr::filter(!is.nan(se)) %>%
               dplyr::select(GWAS, SNP = Marker, beta, se, p.value = PValue, Al1, Al2),
 
             HD_progression = GWAS %>%
-              mutate(FRQ = as.numeric(FRQ),
+              dplyr::mutate(FRQ = as.numeric(FRQ),
                      maf = ifelse(FRQ > 0.5, 1-FRQ, FRQ),
                      A1 = str_to_upper(A1),
                      A2 = str_to_upper(A2),
@@ -72,7 +74,7 @@ tidy_GWAS <- function(GWAS, GWAS_disease){
               dplyr::select(GWAS, SNP, beta = Beta, se = SE, p.value = P, Al1 = A1, Al2 = A2, maf),
 
             ALS = GWAS %>%
-              mutate(freq = as.numeric(freq),
+              dplyr::mutate(freq = as.numeric(freq),
                      maf = ifelse(freq > 0.5, 1-freq, freq),
                      a1 = str_to_upper(a1),
                      a2 = str_to_upper(a2),
@@ -80,52 +82,52 @@ tidy_GWAS <- function(GWAS, GWAS_disease){
               dplyr::select(GWAS, SNP = snp, beta = b, se, p.value = p, Al1 = a1, Al2 = a2, maf),
 
             HD_GEM = GWAS %>%
-              mutate(freq = as.numeric(effect.allele.frequency),
+              dplyr::mutate(freq = as.numeric(effect.allele.frequency),
                      maf = ifelse(freq > 0.5, 1-freq, freq),
                      GWAS = GWAS_disease) %>%
               dplyr::select(GWAS, SNP = snp, beta = effect.size, se, p.value = pval, Al1 = effect.allele, Al2 = other.allele, maf),
 
             SCZ_Euro_49 = GWAS %>%
-              mutate(freq = as.numeric(FRQ_A_33640),
+              dplyr::mutate(freq = as.numeric(FRQ_A_33640),
                      maf = ifelse(freq > 0.5, 1-freq, freq),
                      OR = as.numeric(OR),
                      beta = log(OR, base = exp(1)),
                      GWAS = GWAS_disease) %>%
-              filter(INFO > 0.6) %>%
+              dplyr::filter(INFO > 0.6) %>%
               dplyr::select(GWAS, SNP, beta = beta, se = SE, p.value = P, Al1 = A1, Al2 = A2, maf),
 
             AD_phase_3 = GWAS %>%
-              mutate(GWAS = GWAS_disease) %>%
+              dplyr::mutate(GWAS = GWAS_disease) %>%
               dplyr::select(GWAS, SNP, beta = BETA, se = SE, p.value = P, Al1 = A1, Al2 = A2, maf = MAF_HRC) %>%
-              filter(!is.na(maf)),
+              dplyr::filter(!is.na(maf)),
 
             SCZ_2018_all = GWAS %>%
-              mutate(or = as.numeric(OR),
+              dplyr::mutate(or = as.numeric(OR),
                      beta = log(or, base = exp(1)),
                      freq = as.numeric(Freq.A1),
                      maf = ifelse(freq > 0.5, 1-freq, freq),
                      GWAS = GWAS_disease) %>%
-              filter(!is.nan(beta)) %>%
+              dplyr::filter(!is.nan(beta)) %>%
               dplyr::select(GWAS, CHR, BP, SNP, beta, se = SE, p.value = P, Al1 = A1, Al2 = A2, maf),
 
             PD_chang_ex_23andme = GWAS %>%
-              mutate(beta = as.numeric(b),
+              dplyr::mutate(beta = as.numeric(b),
                      se = as.numeric(se),
                      freq = as.numeric(freq),
                      maf = ifelse(freq > 0.5, 1-freq, freq),
                      GWAS = GWAS_disease) %>%
-              filter(!is.nan(beta)) %>%
+              dplyr::filter(!is.nan(beta)) %>%
               dplyr::select(GWAS, CHR, BP, SNP = RefSNP_id, beta, se, p.value = p, Al1 = A1, Al2 = A2, maf),
 
             intelligence_savage_2018 = GWAS %>%
-              mutate(beta = as.numeric(stdBeta),
+              dplyr::mutate(beta = as.numeric(stdBeta),
                      se = as.numeric(SE),
                      freq = as.numeric(EAF_HRC),
                      maf = ifelse(freq > 0.5, 1-freq, freq),
                      GWAS = GWAS_disease,
                      A1 = str_to_upper(A1),
                      A2 = str_to_upper(A2)) %>%
-              filter(!is.nan(beta)) %>%
+              dplyr::filter(!is.nan(beta)) %>%
               dplyr::select(GWAS, CHR, POS, SNP, beta, se, p.value = P, Al1 = A1, Al2 = A2, maf)
 
 

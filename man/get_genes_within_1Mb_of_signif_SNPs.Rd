@@ -29,7 +29,7 @@ position in GWAS dataframe.}
 \item{mart}{int. Specify genome build.}
 }
 \value{
-
+All genes within +/- 1Mb of significant SNPs.
 }
 \description{
 Get genes within +/- 1Mb of significant SNPs
