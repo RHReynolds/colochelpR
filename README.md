@@ -27,7 +27,7 @@ install_github("RHReynolds/colochelpR")
 
 ## Background
 
-The functions herein are simply wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc). Please refer to the  [coloc vignette](https://chr1swallace.github.io/coloc/) for more background on use of coloc.
+The functions herein are simply wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc). Please refer to the  [coloc vignette](https://chr1swallace.github.io/coloc/) for more background on use of coloc. Please remember to cite [coloc](https://github.com/chr1swallace/coloc), if you use this helper package.
 
 ## Example
 
