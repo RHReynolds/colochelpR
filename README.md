@@ -1,10 +1,11 @@
-# Coloc helper functions
 <!-- badges: start -->
 
 [![Lifecycle:
 dormant](https://img.shields.io/badge/lifecycle-dormant-blue.svg)](https://www.tidyverse.org/lifecycle/#dormant)
 
 <!-- badges: end -->
+
+# Coloc helper functions
 
 Helper/wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc) & associated analyses.
 
@@ -20,14 +21,16 @@ If you would like to install the development version from [GitHub](https://githu
 ``` r
 if(!require("remotes"))
    install.packages("remotes") # if necessary
-library(remotes
+library(remotes)
 install_github("RHReynolds/colochelpR")
 ```
 
 ## Background
 
-The functions herein are simply wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc). Please refer to the  [coloc vignette](https://chr1swallace.github.io/coloc/) for more background on use of coloc.
+The functions herein are simply wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc). Please refer to the  [coloc vignette](https://chr1swallace.github.io/coloc/) for more background on use of coloc. Please remember to cite [coloc](https://github.com/chr1swallace/coloc), if you use this helper package.
 
 ## Example
 
-For an example of how the wrapper functions in this package have been used in analyses, please refer to the following repository: *To be added*
+For an example of how the wrapper functions in this package have been used in analyses, please refer to the following repository: 
+
+**To be added**
