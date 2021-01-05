@@ -12,6 +12,7 @@
 #' @param mart int. Specify genome build.
 #'
 #' @return All genes within +/- 1Mb of significant SNPs.
+#' @export
 #'
 
 get_genes_within_1Mb_of_signif_SNPs <- function(GWAS,

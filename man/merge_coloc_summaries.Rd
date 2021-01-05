@@ -12,17 +12,22 @@ merge_coloc_summaries(
 )
 }
 \arguments{
-\item{results_folder_path}{path to the folder where the results are stored}
+\item{results_folder_path}{chr. Path to the folder where the results are
+stored}
 
-\item{add_signif_SNP}{lgl to determine whether to add the details of the most signif SNPs to the summary}
+\item{add_signif_SNP}{lgl. Determines whether to add the details of the most
+signif SNPs to the summary. Default is FALSE.}
 
-\item{recursive}{arg of list.files whether to recursively look for results in every other folder within the results_folder_path}
+\item{recursive}{lgl. Argument used in \code{list.files}, which determines
+whether to recursively look for results in every other folder within the
+results_folder_path. Default is FALSE.}
 
-\item{pattern}{arg of list.files specifying a pattern to match for the results (e.g. "\\.rda")}
+\item{pattern}{lgl. Argument used in \code{list.files}, which specifies a
+pattern to match for the results (e.g. "\\.rda"). Default is NULL.}
 }
 \value{
-the df with the summaries merged
+The dataframe with the summaries merged.
 }
 \description{
-Merges the raw annotated coloc results into a summary dataframe
+Merges the raw annotated coloc results into a summary dataframe.
 }

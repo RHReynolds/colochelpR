@@ -7,10 +7,11 @@
 get_varbeta(df)
 }
 \arguments{
-\item{df}{dataframe with the columns beta and t.stat or se}
+\item{df}{Dataframe with the columns beta and t.stat or se.}
 }
 \value{
-df with the column varbeta added as a calculation from the beta and se/t.stat
+Dataframe with the column varbeta added as a calculation from the
+  beta and se/t.stat.
 }
 \description{
 Generates varbeta from the beta and the t.stat/se

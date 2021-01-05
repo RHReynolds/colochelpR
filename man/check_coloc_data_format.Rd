@@ -7,19 +7,19 @@
 check_coloc_data_format(df, beta_or_pval, check_maf)
 }
 \arguments{
-\item{df}{dataframe to check the columns of}
+\item{df}{Dataframe to check the columns of}
 
-\item{beta_or_pval}{either "beta" or "pval" depending on whether you want to
-use betas or pvals in the coloc analysis}
+\item{beta_or_pval}{Either "beta" or "pval" depending on whether you want to
+use betas or pvals in the coloc analysis.}
 
-\item{check_maf}{lgl to check if the maf is present}
+\item{check_maf}{lgl. Should function check if the maf is present?}
 }
 \value{
-inputted df with columns the correct type
+Inputted dataframe with columns the correct type.
 }
 \description{
 Checks that the necessary columns for coloc are present and are the correct
 type (num, character) currently for the betas requires: (i) SNP - chr/pos or
 rsids used to join the two datasets; (ii) beta; (iii) varbeta; (iv) maf
-(option depending on the check_maf argument)
+(option depending on the check_maf argument).
 }

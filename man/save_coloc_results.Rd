@@ -7,12 +7,14 @@
 save_coloc_results(coloc_results_annotated, results_dir_path)
 }
 \arguments{
-\item{coloc_results_annotated}{return annotated results from get_coloc_results}
+\item{coloc_results_annotated}{Results, as returned by
+\code{colochelpR::get_coloc_results}.}
 
-\item{results_dir_path}{the directory to save the merged results}
+\item{results_dir_path}{chr. The directory in which to save the merged
+results.}
 }
 \value{
-no return
+Saves coloc results in provided directory.
 }
 \description{
 Save coloc results

@@ -9,7 +9,8 @@ convert_rs_to_loc(df, SNP_column, dbSNP)
 \arguments{
 \item{df}{dataframe. Dataframe containing SNPs as rs ids.}
 
-\item{SNP_column}{chr. Name of column (in quotation marks) containing rs ids in dataframe.}
+\item{SNP_column}{chr. Name of column (in quotation marks) containing rs ids
+in dataframe.}
 
 \item{dbSNP}{BS genome reference snps (choose appropriate dbSNP build
 dependent on genome build)}

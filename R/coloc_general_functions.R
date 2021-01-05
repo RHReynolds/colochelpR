@@ -7,11 +7,16 @@
 
 #' Make results directory
 #'
-#' Generates output folder to store coloc results, does not overwrite the folder if it already exists
+#' Generates output folder to store coloc results, does not overwrite the folder
+#' if it already exists.
 #'
-#' @param results_path path to folder
-#' @param folder_name name of folder to make
-#' @return the full path to the new folder
+#' @param results_path chr. Path to folder.
+#' @param folder_name chr. Name of folder to make.
+#'
+#' @return The full path to the new folder.
+#' @export
+#'
+
 make_results_dir <- function(results_path, folder_name){
 
   results_dir_path <- stringr::str_c(results_path, "/", folder_name)
@@ -34,8 +39,13 @@ make_results_dir <- function(results_path, folder_name){
 #'
 #' Generates varbeta from the beta and the t.stat/se
 #'
-#' @param df dataframe with the columns beta and t.stat or se
-#' @return df with the column varbeta added as a calculation from the beta and se/t.stat
+#' @param df Dataframe with the columns beta and t.stat or se.
+#'
+#' @return Dataframe with the column varbeta added as a calculation from the
+#'   beta and se/t.stat.
+#' @export
+#'
+
 get_varbeta <- function(df){
 
   if("varbeta" %in% colnames(df)){
@@ -69,13 +79,17 @@ get_varbeta <- function(df){
 #' Checks that the necessary columns for coloc are present and are the correct
 #' type (num, character) currently for the betas requires: (i) SNP - chr/pos or
 #' rsids used to join the two datasets; (ii) beta; (iii) varbeta; (iv) maf
-#' (option depending on the check_maf argument)
+#' (option depending on the check_maf argument).
 #'
-#' @param df dataframe to check the columns of
-#' @param beta_or_pval either "beta" or "pval" depending on whether you want to
-#'   use betas or pvals in the coloc analysis
-#' @param check_maf lgl to check if the maf is present
-#' @return inputted df with columns the correct type
+#' @param df Dataframe to check the columns of
+#' @param beta_or_pval Either "beta" or "pval" depending on whether you want to
+#'   use betas or pvals in the coloc analysis.
+#' @param check_maf lgl. Should function check if the maf is present?
+#'
+#' @return Inputted dataframe with columns the correct type.
+#' @export
+#'
+
 check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 
   # always check if SNP present
@@ -145,38 +159,49 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 
 #' Run coloc
 #'
-#' wrapper function that joins the two formatted datasets and performs coloc
+#' Wrapper function that joins the two formatted datasets and performs coloc
 #' analysis then annotates coloc results currently only alllows for df1_type to
 #' be "quant" or "cc" and df2_type to be "quant" so if running GWAS vs eQTL,
-#' eQTL must be df2
+#' eQTL must be df2. Note: "quant" refers to a quantitative trait, while "cc"
+#' refers to "case-control".
 #'
-#' @param df1 first formatted dataset for coloc analysis
-#' @param df2 second formatted dataset for coloc analysis
-#' @param harmonise logical. Whether you would like to modify the sign of the beta
-#'   so both datasets are with respect to the same allele
-#' @param df1_type either "quant" or "cc"
-#' @param df2_type either "quant"
-#' @param df1_beta_or_pval either "beta" or "pval" depending on whether you want
+#' @param df1 df. First formatted dataset for coloc analysis.
+#' @param df2 df. Second formatted dataset for coloc analysis.
+#' @param harmonise logical. Whether you would like to modify the sign of the
+#'   beta so both datasets are with respect to the same allele
+#' @param df1_type Either "quant" or "cc".
+#' @param df2_type Only "quant" currently.
+#' @param df1_beta_or_pval Either "beta" or "pval" depending on whether you want
 #'   to use betas or pvals in the coloc analysis
-#' @param df2_beta_or_pval either "beta" or "pval" depending on whether you want
+#' @param df2_beta_or_pval Either "beta" or "pval" depending on whether you want
 #'   to use betas or pvals in the coloc analysis
-#' @param df1_N Number of samples in df1 (only required for quant)
-#' @param df2_N Number of samples in df2 (only required for quant)
-#' @param df_1_propor_cases Option to put in the proportion of cases for a GWAS in \code{coloc::coloc.abf()}
-#' @param annotate_signif_SNP_df1_df2 lgl - whether to annotate results with the
+#' @param df1_N num. Number of samples in df1 (only required for quant)
+#' @param df2_N num. Number of samples in df2 (only required for quant)
+#' @param df_1_propor_cases num. Option to put in the proportion of cases for a
+#'   GWAS in \code{coloc::coloc.abf()}.
+#' @param annotate_signif_SNP_df1_df2 lgl. Whether to annotate results with the
 #'   signif SNPs from df1/df2 and from coloc
 #' @param key_cols all columns needed to uniquely identify analysis - requires
 #'   appending "_1" or "_2" depending on whether col from df1 or df2
 #'   respectively
-#' @param df_1_name df1 name that will be added to results list (e.g. "GWAS")
-#' @param df_2_name df2 name that will be added to results list (e.g. "eQTL")
-#' @param df1_path path to df1
-#' @param df2_path path to df2
-#' @param p1 prior probability a SNP is associated with trait 1, set to coloc.abf default of 1e-4
-#' @param p2 prior probability a SNP is associated with trait 2, set to coloc.abf default of 1e-4
-#' @param p12 prior probability a SNP is associated with both traits, set to coloc.abf default of 1e-5
+#' @param df_1_name chr. df1 name that will be added to results list (e.g.
+#'   "GWAS")
+#' @param df_2_name chr. df2 name that will be added to results list (e.g.
+#'   "eQTL")
+#' @param df1_path chr. Path to df1
+#' @param df2_path chr. Path to df2
+#' @param p1 num. Prior probability a SNP is associated with trait 1, set to
+#'   coloc.abf default of 1e-4
+#' @param p2 num. Prior probability a SNP is associated with trait 2, set to
+#'   coloc.abf default of 1e-4
+#' @param p12 num. Prior probability a SNP is associated with both traits, set
+#'   to coloc.abf default of 1e-5
+#'
 #' @return list containing coloc results annotated or NULL if there are no
 #'   overlapping SNPs or all SNPs are removed through harmonisation
+#' @export
+#'
+
 get_coloc_results <- function(df1, df2, harmonise = F, df1_type, df2_type, df1_beta_or_pval, df2_beta_or_pval, df1_N = NA, df2_N = NA, df_1_propor_cases,
                               annotate_signif_SNP_df1_df2 = F, key_cols, df_1_name, df_2_name, df1_path, df2_path,
                               p1 = 1e-04, p2 = 1e-04, p12 = 1e-05){
@@ -219,9 +244,15 @@ get_coloc_results <- function(df1, df2, harmonise = F, df1_type, df2_type, df1_b
 
 #' Save coloc results
 #'
-#' @param coloc_results_annotated return annotated results from get_coloc_results
-#' @param results_dir_path the directory to save the merged results
-#' @return no return
+#' @param coloc_results_annotated Results, as returned by
+#'   \code{colochelpR::get_coloc_results}.
+#' @param results_dir_path chr. The directory in which to save the merged
+#'   results.
+#'
+#' @return Saves coloc results in provided directory.
+#' @export
+#'
+
 save_coloc_results <- function(coloc_results_annotated, results_dir_path){
 
   if(!is.null(coloc_results_annotated)){
@@ -245,13 +276,22 @@ save_coloc_results <- function(coloc_results_annotated, results_dir_path){
 
 #' Merge coloc summaries
 #'
-#' Merges the raw annotated coloc results into a summary dataframe
+#' Merges the raw annotated coloc results into a summary dataframe.
 #'
-#' @param results_folder_path path to the folder where the results are stored
-#' @param add_signif_SNP lgl to determine whether to add the details of the most signif SNPs to the summary
-#' @param recursive arg of list.files whether to recursively look for results in every other folder within the results_folder_path
-#' @param pattern arg of list.files specifying a pattern to match for the results (e.g. "\\.rda")
-#' @return the df with the summaries merged
+#' @param results_folder_path chr. Path to the folder where the results are
+#'   stored
+#' @param add_signif_SNP lgl. Determines whether to add the details of the most
+#'   signif SNPs to the summary. Default is FALSE.
+#' @param recursive lgl. Argument used in \code{list.files}, which determines
+#'   whether to recursively look for results in every other folder within the
+#'   results_folder_path. Default is FALSE.
+#' @param pattern lgl. Argument used in \code{list.files}, which specifies a
+#'   pattern to match for the results (e.g. "\\.rda"). Default is NULL.
+#'
+#' @return The dataframe with the summaries merged.
+#' @export
+#'
+
 merge_coloc_summaries <- function(results_folder_path, add_signif_SNP = F, recursive = F, pattern = NULL){
 
   coloc_result_paths <-
@@ -267,7 +307,7 @@ merge_coloc_summaries <- function(results_folder_path, add_signif_SNP = F, recur
   coloc_results_summaries_w_keys_all_w_sum_ratio_PPH4_PPH3 <-
     coloc_results_summaries_w_keys_all %>%
     dplyr::mutate(sum_PPH3_PPH4 = PP.H3.abf + PP.H4.abf,
-           ratio_PPH4_PPH3 = PP.H4.abf/PP.H3.abf)
+                  ratio_PPH4_PPH3 = PP.H4.abf/PP.H3.abf)
 
   return(coloc_results_summaries_w_keys_all_w_sum_ratio_PPH4_PPH3)
 

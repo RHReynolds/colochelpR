@@ -27,57 +27,64 @@ get_coloc_results(
 )
 }
 \arguments{
-\item{df1}{first formatted dataset for coloc analysis}
+\item{df1}{df. First formatted dataset for coloc analysis.}
 
-\item{df2}{second formatted dataset for coloc analysis}
+\item{df2}{df. Second formatted dataset for coloc analysis.}
 
-\item{harmonise}{logical. Whether you would like to modify the sign of the beta
-so both datasets are with respect to the same allele}
+\item{harmonise}{logical. Whether you would like to modify the sign of the
+beta so both datasets are with respect to the same allele}
 
-\item{df1_type}{either "quant" or "cc"}
+\item{df1_type}{Either "quant" or "cc".}
 
-\item{df2_type}{either "quant"}
+\item{df2_type}{Only "quant" currently.}
 
-\item{df1_beta_or_pval}{either "beta" or "pval" depending on whether you want
+\item{df1_beta_or_pval}{Either "beta" or "pval" depending on whether you want
 to use betas or pvals in the coloc analysis}
 
-\item{df2_beta_or_pval}{either "beta" or "pval" depending on whether you want
+\item{df2_beta_or_pval}{Either "beta" or "pval" depending on whether you want
 to use betas or pvals in the coloc analysis}
 
-\item{df1_N}{Number of samples in df1 (only required for quant)}
+\item{df1_N}{num. Number of samples in df1 (only required for quant)}
 
-\item{df2_N}{Number of samples in df2 (only required for quant)}
+\item{df2_N}{num. Number of samples in df2 (only required for quant)}
 
-\item{df_1_propor_cases}{Option to put in the proportion of cases for a GWAS in \code{coloc::coloc.abf()}}
+\item{df_1_propor_cases}{num. Option to put in the proportion of cases for a
+GWAS in \code{coloc::coloc.abf()}.}
 
-\item{annotate_signif_SNP_df1_df2}{lgl - whether to annotate results with the
+\item{annotate_signif_SNP_df1_df2}{lgl. Whether to annotate results with the
 signif SNPs from df1/df2 and from coloc}
 
 \item{key_cols}{all columns needed to uniquely identify analysis - requires
 appending "_1" or "_2" depending on whether col from df1 or df2
 respectively}
 
-\item{df_1_name}{df1 name that will be added to results list (e.g. "GWAS")}
+\item{df_1_name}{chr. df1 name that will be added to results list (e.g.
+"GWAS")}
 
-\item{df_2_name}{df2 name that will be added to results list (e.g. "eQTL")}
+\item{df_2_name}{chr. df2 name that will be added to results list (e.g.
+"eQTL")}
 
-\item{df1_path}{path to df1}
+\item{df1_path}{chr. Path to df1}
 
-\item{df2_path}{path to df2}
+\item{df2_path}{chr. Path to df2}
 
-\item{p1}{prior probability a SNP is associated with trait 1, set to coloc.abf default of 1e-4}
+\item{p1}{num. Prior probability a SNP is associated with trait 1, set to
+coloc.abf default of 1e-4}
 
-\item{p2}{prior probability a SNP is associated with trait 2, set to coloc.abf default of 1e-4}
+\item{p2}{num. Prior probability a SNP is associated with trait 2, set to
+coloc.abf default of 1e-4}
 
-\item{p12}{prior probability a SNP is associated with both traits, set to coloc.abf default of 1e-5}
+\item{p12}{num. Prior probability a SNP is associated with both traits, set
+to coloc.abf default of 1e-5}
 }
 \value{
 list containing coloc results annotated or NULL if there are no
   overlapping SNPs or all SNPs are removed through harmonisation
 }
 \description{
-wrapper function that joins the two formatted datasets and performs coloc
+Wrapper function that joins the two formatted datasets and performs coloc
 analysis then annotates coloc results currently only alllows for df1_type to
 be "quant" or "cc" and df2_type to be "quant" so if running GWAS vs eQTL,
-eQTL must be df2
+eQTL must be df2. Note: "quant" refers to a quantitative trait, while "cc"
+refers to "case-control".
 }

@@ -7,13 +7,14 @@
 make_results_dir(results_path, folder_name)
 }
 \arguments{
-\item{results_path}{path to folder}
+\item{results_path}{chr. Path to folder.}
 
-\item{folder_name}{name of folder to make}
+\item{folder_name}{chr. Name of folder to make.}
 }
 \value{
-the full path to the new folder
+The full path to the new folder.
 }
 \description{
-Generates output folder to store coloc results, does not overwrite the folder if it already exists
+Generates output folder to store coloc results, does not overwrite the folder
+if it already exists.
 }
