@@ -41,8 +41,8 @@ For these helper functions to work, it is important that GWASs/QTL datasets have
 
 #### GWAS
 
-Column name | Description
------------ | -------------------------------------------------------------------- 
+**Column name** | **Description**
+--------------- | -------------------------------------------------------------------- 
 GWAS | GWAS name.
 SNP | SNP identifier. The format of these will need to match the second GWAS/dataset you intend to run in coloc i.e. both location-based (CHR:BP) or RS-ID-based. **If location-based, ensure that you are mapping to the same genome build in both datasets.** 
 beta | Regression coefficient.
@@ -64,8 +64,8 @@ GWAS %>%
  
 #### eQTL
 
-Column name | Description
------------ | -------------------------------------------------------------------- 
+**Column name** | **Description**
+--------------- | -------------------------------------------------------------------- 
 eQTL_dataset | Name of eQTL dataset.
 gene | Ensembl gene ID for gene regulated by SNP. Often the original eQTL dataset will provide HGNC symbols, or if you are using a microarray-based dataset, it might provide probe IDs. For HGNC symbols, you can either use `biomaRt`, or if you will be converting many gene ids, you can always use a `.GTF` for GRCh37/38 (depending on what your eQTL dataset was mapped to). For probe IDs, these will need to be mapped back to genes. This is may be provided by the eQTL generator, although for common microarray plates (e.g. Affymetrix arrays) (i) `biomaRt` can be used and (ii) Bioconductor offers offers a range of [annotation packages](http://www.bioconductor.org/packages/release/BiocViews.html#___AnnotationData) that can be used to convert probe IDs.
 SNP | SNP identifier. The format of these will need to match the first GWAS/dataset you intend to run in coloc i.e. both location-based (CHR:BP) or RS-ID-based. **If location-based, ensure that you are mapping to the same genome build in both datasets.**
