@@ -29,8 +29,81 @@ install_github("RHReynolds/colochelpR")
 
 The functions herein are simply wrapper functions for executing [coloc](https://github.com/chr1swallace/coloc). Please refer to the  [coloc vignette](https://chr1swallace.github.io/coloc/) for more background on use of coloc. Please remember to cite [coloc](https://github.com/chr1swallace/coloc), if you use this helper package.
 
-## Example
+## Usage example
 
 For an example of how the wrapper functions in this package have been used in analyses, please refer to the following repository: 
 
 **To be added**
+
+### Note on column names
+
+For these helper functions to work, it is important that GWASs/QTL datasets have been "tidied" and the necessary columns are present. So far, we have only used coloc for GWAS and eQTL datasets, the necessary columns for which are presented in tables below.
+
+#### GWAS
+
+Column name | Description
+----------- | -------------------------------------------------------------------- 
+GWAS | GWAS name.
+SNP | SNP identifier. The format of these will need to match the second GWAS/dataset you intend to run in coloc i.e. both location-based (CHR:BP) or RS-ID-based. **If location-based, ensure that you are mapping to the same genome build in both datasets.** 
+beta | Regression coefficient.
+se | Standard error of regression coefficient.
+varbeta | This is generated through use of the function `colochelpR::get_varbeta()`, provided either `se` is available or `beta` and `t.stat`.
+p.value | P-value of association.
+Al1 | Effect allele.
+Al2 | Alternate allele.
+maf | Minor allele frequency.
+
+- According to the original [coloc paper](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1004383), it is possible to compute posterior probabilities from single-variant association `p.value` and `maf`, but estimated single SNP regression co-efficients (`beta`) and their variances (`varbeta`) or standard errors (`se`) are preferred.
+- If you do not have the columns `beta` and `se`, but you do have the odds ratio (often OR) and the Z-score, you can generate `beta` and `se` via the following formulas:
+
+``` r
+GWAS %>% 
+  dplyr::mutate(beta = log(OR, base = exp(1)),
+                se = log(OR, base = exp(1))/Z_SCORE)
+```
+ 
+#### eQTL
+
+Column name | Description
+----------- | -------------------------------------------------------------------- 
+eQTL_dataset | Name of eQTL dataset.
+gene | Ensembl gene ID for gene regulated by SNP. Often the original eQTL dataset will provide HGNC symbols, or if you are using a microarray-based dataset, it might provide probe IDs. For HGNC symbols, you can either use `biomaRt`, or if you will be converting many gene ids, you can always use a `.GTF` for GRCh37/38 (depending on what your eQTL dataset was mapped to). For probe IDs, these will need to be mapped back to genes. This is may be provided by the eQTL generator, although for common microarray plates (e.g. Affymetrix arrays) (i) `biomaRt` can be used and (ii) Bioconductor offers offers a range of [annotation packages](http://www.bioconductor.org/packages/release/BiocViews.html#___AnnotationData) that can be used to convert probe IDs.
+SNP | SNP identifier. The format of these will need to match the first GWAS/dataset you intend to run in coloc i.e. both location-based (CHR:BP) or RS-ID-based. **If location-based, ensure that you are mapping to the same genome build in both datasets.**
+beta | Regression coefficient.
+se | Standard error of regression coefficient.
+varbeta | This is generated through use of the function `colochelpR::get_varbeta()`, provided either `se` is available or `beta` and `t.stat`.
+p.value | P-value of association.
+Al1 | Effect allele.
+Al2 | Alternate allele.
+maf | Minor allele frequency.
+N | Number of samples.
+
+- As with the GWAS dataset, if columns `beta` and `se` are not available, `p.values` and `maf` can be used.
+- Many eQTL datasets do not provide MAFs. It is, however, possible to use a reference database to look up MAFs for SNPs within the eQTL datasets. For example, the package [`MafDb.1Kgenomes.phase3.hs37d5`](https://bioconductor.org/packages/release/data/annotation/html/MafDb.1Kgenomes.phase3.hs37d5.html) contains MAFs for a number of populations (**remeber to select the population that matches your eQTL dataset**). See example code below:
+
+``` r
+mafdb <- MafDb.1Kgenomes.phase3.hs37d5
+
+example_df <- data.frame(rs_id = c("rs12921634", "rs1476958", "rs56189750"))
+
+mafs <- GenomicScores::gscores(x = mafdb, ranges = example_df$rs_id %>% as.character(), pop = "EUR_AF")
+mafs <- mafs %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column(var = "SNP") %>%
+  dplyr::rename(maf = EUR_AF) %>% 
+  dplyr::select(SNP, maf)
+
+example_df <- example_df %>% 
+  inner_join(mafs, by = c("rs_id" = "SNP"))
+```
+
+### Note on SNP notations
+
+- The format that SNPs are provided in often varies between location-based (CHR:BP) or RS-ID-based formats. 
+- As a result, there may sometimes be a need to convert between formats. 
+- The most common conversion we have run into is conversion of RS IDs to chromosome locations, and have therefore written a function to do this (`colochelpR::convert_rs_to_loc()`). 
+    - This functions uses the `BSgenome::snpsById()` function, and therefore requires a SNPlocs object, which is a container for storing known SNP locations. 
+    - Use `BSgenome::available.SNPs()` to return a vector of the available SNPlocs packages. 
+    - **Remember to use a SNPlocs package with the same genome build as the genome build you are intending to match these RS IDs to.**
+- We have not written a wrapper function for conversion of chromosome locations to RS ids (we probably will when we run into the issue ourselves). In the meantime, check out `BSgenome::snpsByOverlaps()` for inspiration (and please do contribute your function to this repository, if you happen to write it before one of us.)
+
