@@ -61,7 +61,11 @@ GWAS %>%
   dplyr::mutate(beta = log(OR, base = exp(1)),
                 se = log(OR, base = exp(1))/Z_SCORE)
 ```
- 
+
+- You will also need the number of individuals within your GWAS. 
+    - This does not need to be a column in your GWAS dataframe. A vector with the number will suffice.
+    - If the GWAS is a case-control dataset, you will additionally need the number of cases and controls, in order to calculate the proportion of individuals that are cases (i.e. n_cases/n_total).
+
 #### eQTL
 
 **Column name** | **Description**
@@ -76,7 +80,7 @@ p.value | P-value of association.
 Al1 | Effect allele.
 Al2 | Alternate allele.
 maf | Minor allele frequency.
-N | Number of samples.
+N | Number of individuals.
 
 - As with the GWAS dataset, if columns `beta` and `se` are not available, `p.values` and `maf` can be used.
 - Many eQTL datasets do not provide MAFs. It is, however, possible to use a reference database to look up MAFs for SNPs within the eQTL datasets. For example, the package [`MafDb.1Kgenomes.phase3.hs37d5`](https://bioconductor.org/packages/release/data/annotation/html/MafDb.1Kgenomes.phase3.hs37d5.html) contains MAFs for a number of populations (**remeber to select the population that matches your eQTL dataset**). See example code below:
