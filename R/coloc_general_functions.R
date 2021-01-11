@@ -160,7 +160,7 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 #' Run coloc
 #'
 #' Wrapper function that joins the two formatted datasets and performs coloc
-#' analysis then annotates coloc results currently only alllows for df1_type to
+#' analysis then annotates coloc results currently only allows for df1_type to
 #' be "quant" or "cc" and df2_type to be "quant" so if running GWAS vs eQTL,
 #' eQTL must be df2. Note: "quant" refers to a quantitative trait, while "cc"
 #' refers to "case-control".
@@ -197,7 +197,7 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 #' @param p12 num. Prior probability a SNP is associated with both traits, set
 #'   to coloc.abf default of 1e-5
 #'
-#' @return list containing coloc results annotated or NULL if there are no
+#' @return List containing coloc results annotated or NULL if there are no
 #'   overlapping SNPs or all SNPs are removed through harmonisation
 #' @export
 #'
@@ -341,6 +341,21 @@ add_most_signif_SNP_to_signif_results <- function(coloc_results_merged, results_
 
 
 ##### Second level #####
+
+
+
+#' Join coloc datasets
+#'
+#' Wrapper function that joins the two formatted datasets.
+#'
+#' @param df1 df. First formatted dataset for coloc analysis.
+#' @param df2 df. Second formatted dataset for coloc analysis.
+#' @param harmonise logical. Whether you would like to modify the sign of the
+#'   beta so both datasets are with respect to the same allele
+#'
+#' @return Joined dataframe with data from both datasets.
+#' @export
+#'
 
 join_coloc_datasets <- function(df1, df2, harmonise = F){
 

@@ -78,12 +78,12 @@ coloc.abf default of 1e-4}
 to coloc.abf default of 1e-5}
 }
 \value{
-list containing coloc results annotated or NULL if there are no
+List containing coloc results annotated or NULL if there are no
   overlapping SNPs or all SNPs are removed through harmonisation
 }
 \description{
 Wrapper function that joins the two formatted datasets and performs coloc
-analysis then annotates coloc results currently only alllows for df1_type to
+analysis then annotates coloc results currently only allows for df1_type to
 be "quant" or "cc" and df2_type to be "quant" so if running GWAS vs eQTL,
 eQTL must be df2. Note: "quant" refers to a quantitative trait, while "cc"
 refers to "case-control".
