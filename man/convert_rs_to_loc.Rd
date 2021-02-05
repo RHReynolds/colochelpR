@@ -13,7 +13,7 @@ convert_rs_to_loc(df, SNP_column, dbSNP)
 in dataframe.}
 
 \item{dbSNP}{BS genome reference snps (choose appropriate dbSNP build
-dependent on genome build)}
+dependent on genome build).}
 }
 \value{
 Dataframe with rs ids and CHR:BP locations.

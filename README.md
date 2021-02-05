@@ -109,5 +109,8 @@ example_df <- example_df %>%
     - This functions uses the `BSgenome::snpsById()` function, and therefore requires a SNPlocs object, which is a container for storing known SNP locations. 
     - Use `BSgenome::available.SNPs()` to return a vector of the available SNPlocs packages. 
     - **Remember to use a SNPlocs package with the same genome build as the genome build you are intending to match these RS IDs to.**
-- We have not written a wrapper function for conversion of chromosome locations to RS ids (we probably will when we run into the issue ourselves). In the meantime, check out `BSgenome::snpsByOverlaps()` for inspiration (and please do contribute your function to this repository, if you happen to write it before one of us.)
+- We have also written a wrapper function for conversion of chromosome locations to RS ids (`colochelpR::convert_loc_to_rs()`).
 
+    - This functions uses the `BSgenome::snpsByOverlaps()` function, and therefore requires a SNPlocs object, which is a container for storing known SNP locations (as described above).
+    - Users should note that some chromosome-bp locations may have more than one associated RS-ID, thus the user may have to check for duplicates after conversion. We have chosen not to do this, as some users may wish to simply remove duplicated SNPs, or keep one of the duplicates.
+    - Users should also note that some chromosome-bp locations may not have an associated RS ID. These will be returned as NA in the RS ID column (`SNP`) after the conversion.
