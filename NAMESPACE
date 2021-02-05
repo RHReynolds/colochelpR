@@ -3,6 +3,7 @@
 export("%>%")
 export(biomart_df)
 export(check_coloc_data_format)
+export(convert_loc_to_rs)
 export(convert_rs_to_loc)
 export(get_coloc_results)
 export(get_genes_within_1Mb_of_signif_SNPs)
