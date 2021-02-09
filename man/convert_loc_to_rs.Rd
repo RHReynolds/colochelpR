@@ -16,13 +16,20 @@ columns included these will be preserved.}
 dependent on genome build).}
 }
 \value{
-Dataframe with rs ids and CHR:BP locations. **Note that some CHR:BP
-  locations have more than one associated rs id, thus some filtering for
-  duplicates may have to occur after conversion. We leave this to the user to
-  decide how they wish to filter.** In addition, some CHR:BP locations may
-  not have an associated rs id -- these will be represented by NA in the SNP
-  column after conversion.
+Dataframe with rs ids and CHR:BP locations.
 }
 \description{
-Convert CHR:BP locations to rs ids.
+Function will convert genomic co-ordinates to rs ids.
 }
+\section{Warning}{
+
+\itemize{
+  \item Some CHR:BP locations have more than one
+  associated rs id, thus some filtering for duplicates may have to occur
+  after conversion. We leave this to the user to decide how they wish to
+  filter.
+  \item Some CHR:BP locations may not have an associated rs id --
+  these will be represented by NA in the SNP column after conversion.
+  }
+}
+

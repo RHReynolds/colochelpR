@@ -30,6 +30,18 @@ convert_rs_to_loc <- function(df, SNP_column, dbSNP){
 
 #' Convert CHR:BP locations to rs ids.
 #'
+#' @description Function will convert genomic co-ordinates to rs ids.
+#'
+#' @section Warning:
+#' \itemize{
+#'   \item Some CHR:BP locations have more than one
+#'   associated rs id, thus some filtering for duplicates may have to occur
+#'   after conversion. We leave this to the user to decide how they wish to
+#'   filter.
+#'   \item Some CHR:BP locations may not have an associated rs id --
+#'   these will be represented by NA in the SNP column after conversion.
+#'   }
+#'
 #' @param df dataframe. Dataframe containing SNPs as genomic locations. Must
 #'   contain 2 columns labelled \code{CHR} and \code{BP}, with chromosome and
 #'   base pair positions, respectively. If the dataframe contains additional
@@ -37,12 +49,7 @@ convert_rs_to_loc <- function(df, SNP_column, dbSNP){
 #' @param dbSNP BS genome reference snps (choose appropriate dbSNP build
 #'   dependent on genome build).
 #'
-#' @return Dataframe with rs ids and CHR:BP locations. **Note that some CHR:BP
-#'   locations have more than one associated rs id, thus some filtering for
-#'   duplicates may have to occur after conversion. We leave this to the user to
-#'   decide how they wish to filter.** In addition, some CHR:BP locations may
-#'   not have an associated rs id -- these will be represented by NA in the SNP
-#'   column after conversion.
+#' @return Dataframe with rs ids and CHR:BP locations.
 #' @export
 #'
 
@@ -85,7 +92,7 @@ convert_loc_to_rs <- function(df, dbSNP){
   combined <-
     df_gr %>%
     dplyr::rename(SNP = RefSNP_id, CHR = seqnames, BP = pos) %>%
-    dplyr::left_join(df, by = c("CHR", "BP")) %>%
+    dplyr::right_join(df, by = c("CHR", "BP")) %>%
     dplyr::select(-strand, -alleles_as_ambig)
 
   return(combined)
