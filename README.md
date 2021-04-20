@@ -83,7 +83,7 @@ maf | Minor allele frequency.
 N | Number of individuals.
 
 - As with the GWAS dataset, if columns `beta` and `se` are not available, `p.values` and `maf` can be used.
-- Many eQTL datasets do not provide MAFs. It is, however, possible to use a reference database to look up MAFs for SNPs within the eQTL datasets. For example, the package [`MafDb.1Kgenomes.phase3.hs37d5`](https://bioconductor.org/packages/release/data/annotation/html/MafDb.1Kgenomes.phase3.hs37d5.html) contains MAFs for a number of populations (**remeber to select the population that matches your eQTL dataset**). See example code below:
+- Many eQTL datasets do not provide MAFs. It is, however, possible to use a reference database to look up MAFs for SNPs within the eQTL datasets. For example, the package [`MafDb.1Kgenomes.phase3.hs37d5`](https://bioconductor.org/packages/release/data/annotation/html/MafDb.1Kgenomes.phase3.hs37d5.html) contains MAFs for a number of populations (**remember to select the population that matches your eQTL dataset**). See example code below:
 
 ``` r
 mafdb <- MafDb.1Kgenomes.phase3.hs37d5
