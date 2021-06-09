@@ -1,5 +1,9 @@
 #' Get genes within +/- 1Mb of significant SNPs
 #'
+#' As colochelpR has primarily been used together with cis-eQTL datasets (where
+#' testing of SNP-gene associations is limited to genes within 1 Mb of the SNP),
+#' we define a region of +/- 1 Mb.
+#'
 #' @param GWAS dataframe. Dataframe with GWAS results, containing, as a minimum,
 #'   the following columns: (1) SNP identifier, (2) chromosome, in integer
 #'   format, (3) basepair position, in integer format and (4) p-value column.
