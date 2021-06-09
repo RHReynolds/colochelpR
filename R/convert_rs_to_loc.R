@@ -91,9 +91,14 @@ convert_loc_to_rs <- function(df, dbSNP){
 
   combined <-
     df_gr %>%
-    dplyr::rename(SNP = RefSNP_id, CHR = seqnames, BP = pos) %>%
+    dplyr::rename(
+      SNP = RefSNP_id,
+      CHR = seqnames,
+      BP = pos,
+      # Rename strand column just in case this is a column in the inputted df
+      gr_strand = strand) %>%
     dplyr::right_join(df, by = c("CHR", "BP")) %>%
-    dplyr::select(-strand, -alleles_as_ambig)
+    dplyr::select(-gr_strand, -alleles_as_ambig)
 
   return(combined)
 
