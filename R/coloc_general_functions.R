@@ -141,6 +141,8 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 
     if(!"maf" %in% colnames(df)) stop("Warning: maf column not found")
 
+    if(any(is.na(df[["maf"]]))) stop("Warning: maf column contains missing values -- these must be removed")
+
     if(!is.numeric(df[["maf"]])){
 
       print("Converting maf column to numeric...")
