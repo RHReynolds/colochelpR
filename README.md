@@ -14,6 +14,14 @@ Helper/wrapper functions for executing [coloc](https://github.com/chr1swallace/c
 - Author: [David Zhang](https://github.com/dzhang32)
 - Maintainer: [Regina H. Reynolds](https://github.com/RHReynolds) 
 
+## Citation
+
+If you use any of the code or data from this repository, please cite our [doi](https://doi.org/10.5281/zenodo.5011869).
+
+## License
+
+The code in this repository is released under an MIT license. This repository is distributed in the hope that it will be useful to the wider community, but without any warranty of any kind. Please see the [LICENSE](LICENSE.md) file for more details.
+
 ## Installation instructions
 
 There is no plan to ever submit this code to `CRAN` or `Bioconductor`. This code was developed for use by the [Ryten Lab](https://github.com/rytenlab) and collaborators thereof. While most of the code has been separately tested by David and Regina, it is highly likely bugs exist. 
