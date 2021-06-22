@@ -3,6 +3,8 @@
 [![Lifecycle:
 dormant](https://img.shields.io/badge/lifecycle-dormant-blue.svg)](https://www.tidyverse.org/lifecycle/#dormant)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5011869.svg)](https://doi.org/10.5281/zenodo.5011869)
+
 <!-- badges: end -->
 
 # Coloc helper functions
