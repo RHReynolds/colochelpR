@@ -16,7 +16,7 @@ Helper/wrapper functions for executing [coloc](https://github.com/chr1swallace/c
 
 ## Citation
 
-If you use any of the code or data from this repository, please cite the original [coloc R package](https://github.com/chr1swallace/coloc) and our [doi](https://doi.org/10.5281/zenodo.5011869).
+If you use any of the code from this repository, please cite the original [coloc R package](https://github.com/chr1swallace/coloc) and our [doi](https://doi.org/10.5281/zenodo.5011869).
 
 ## License
 
