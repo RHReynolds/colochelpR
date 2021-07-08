@@ -3,6 +3,8 @@
 [![Lifecycle:
 dormant](https://img.shields.io/badge/lifecycle-dormant-blue.svg)](https://www.tidyverse.org/lifecycle/#dormant)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5011869.svg)](https://doi.org/10.5281/zenodo.5011869)
+
 <!-- badges: end -->
 
 # Coloc helper functions
@@ -11,6 +13,14 @@ Helper/wrapper functions for executing [coloc](https://github.com/chr1swallace/c
 
 - Author: [David Zhang](https://github.com/dzhang32)
 - Maintainer: [Regina H. Reynolds](https://github.com/RHReynolds) 
+
+## Citation
+
+If you use any of the code from this repository, please cite the original [coloc R package](https://github.com/chr1swallace/coloc) and our [doi](https://doi.org/10.5281/zenodo.5011869).
+
+## License
+
+The code in this repository is released under an MIT license. This repository is distributed in the hope that it will be useful to the wider community, but without any warranty of any kind. Please see the [LICENSE](LICENSE.md) file for more details.
 
 ## Installation instructions
 
