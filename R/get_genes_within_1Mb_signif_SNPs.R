@@ -65,7 +65,7 @@ get_genes_within_1Mb_of_signif_SNPs <- function(GWAS,
   overlaps_hits <-
     GenomicRanges::findOverlaps(GWAS_signif_SNPs_max_min_bp_gr, ensembl_all_genes_start_stop_gr, minoverlap = 1, type = "any")
 
-  ensembl_all_genes_start_stop_gr_overlapping <- ensembl_all_genes_start_stop_gr[overlaps_hits %>% subjectHits()]
+  ensembl_all_genes_start_stop_gr_overlapping <- ensembl_all_genes_start_stop_gr[overlaps_hits %>% S4Vectors::subjectHits()]
 
   ensembl_gene_ids_overlapping_1Mb_window_hit <- ensembl_all_genes_start_stop_gr_overlapping$ensembl_gene_id %>%
     unique()
