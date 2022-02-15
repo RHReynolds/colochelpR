@@ -1,6 +1,6 @@
 Package: colochelpR
 Title: `colochelpR` is a home for helper functions for executing coloc
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: 
     person(given = "David",
            family = "Zhang",
