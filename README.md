@@ -41,9 +41,7 @@ The functions herein are simply wrapper functions for executing [coloc](https://
 
 ## Usage example
 
-For an example of how the wrapper functions in this package have been used in analyses, please refer to the following repository: 
-
-**To be added**
+For an example of how the wrapper functions in this package have been used in analyses, please refer to the following [repository](https://github.com/RHReynolds/RBD-GWAS-analysis).
 
 ### Note on column names
 
