@@ -204,7 +204,7 @@ check_coloc_data_format <- function(df, beta_or_pval, check_maf){
 #' @export
 #'
 
-get_coloc_results <- function(df1, df2, harmonise = F, df1_type, df2_type, df1_beta_or_pval, df2_beta_or_pval, df1_N = NA, df2_N = NA, df_1_propor_cases,
+get_coloc_results <- function(df1, df2, harmonise = F, df1_type, df2_type, df1_beta_or_pval, df2_beta_or_pval, df1_N = NULL, df2_N = NULL, df_1_propor_cases,
                               annotate_signif_SNP_df1_df2 = F, key_cols, df_1_name, df_2_name, df1_path, df2_path,
                               p1 = 1e-04, p2 = 1e-04, p12 = 1e-05){
 
@@ -432,12 +432,12 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
 
 }
 
-run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, df2_beta_or_pval, df1_N = NA, df2_N = NA, df_1_propor_cases,
+run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, df2_beta_or_pval, df1_N = NULL, df2_N = NULL, df_1_propor_cases,
                           p1 = p1, p2 = p2, p12 = p12){
 
   if(df1_type == "cc" && df2_type == "quant"){
 
-    if(is.na(df2_N) ) stop("No N provided for df2 - needed for quant trait")
+    if(is.null(df2_N) ) stop("No N provided for df2 - needed for quant trait")
 
     # here if the GWAS MAF is NULL, it doesnt seem to change the result, tested changing the MAF of the GWAS and makes no difference
 
@@ -513,7 +513,7 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
 
   } else if(df1_type == "quant" && df2_type == "quant"){
 
-    if( is.na(df1_N) | is.na(df2_N) ) stop("No N provided for df1 or df2 - needed for quant trait")
+    if( is.null(df1_N) | is.null(df2_N) ) stop("No N provided for df1 or df2 - needed for quant trait")
 
     if(df1_beta_or_pval == "beta" & df2_beta_or_pval == "beta"){
       coloc_results <-
