@@ -10,6 +10,10 @@ Authors@R:
            family = "Reynolds",
            role = c("cre", "ctb"),
            email = "regina.reynolds.16@ucl.ac.uk")
+    person(given = "Alejandro",
+           family = "Martinez Carrasco",
+           role = c("ctb"),
+           email = "alejandro.carrasco.20@ucl.ac.uk")       
 Description: The purpose of this package was to develop wrapper functions 
   for execution of coloc for internal/collaborator use. As such, it is considered 
   an experimental/dormant package.

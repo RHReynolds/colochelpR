@@ -13,6 +13,7 @@ Helper/wrapper functions for executing [coloc](https://github.com/chr1swallace/c
 
 - Author: [David Zhang](https://github.com/dzhang32)
 - Maintainer: [Regina H. Reynolds](https://github.com/RHReynolds) 
+- Contributor(s): [Alejandro Martinez Carrasco](https://github.com/AMCalejandro)
 
 ## Citation
 
