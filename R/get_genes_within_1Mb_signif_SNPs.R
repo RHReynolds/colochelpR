@@ -15,6 +15,7 @@
 #'   position in GWAS dataframe.
 #' @param mart int. Specify genome build.
 #'
+#' @importFrom S4Vectors subjectHits
 #' @return All genes within +/- 1Mb of significant SNPs.
 #' @export
 #'
@@ -138,11 +139,11 @@ biomart_df <- function(dataframe, columnToFilter, mart = 38, attributes, filter)
 
   # Query genes as a vector
   genes <- dataframe %>% .[[columnToFilter]] %>% unique()
-  print(str_c("Number of unique genes to search: ", length(genes)))
+  print(stringr::str_c("Number of unique genes to search: ", length(genes)))
 
   # BioMart search
   biomart_query <- biomaRt::getBM(attributes = attributes, filters = filter, values = genes , mart = ensembl_mart)
-  print(str_c("Number of matches found:", nrow(biomart_query)))
+  print(stringr::str_c("Number of matches found:", nrow(biomart_query)))
 
   # Create new data frame with positional information + remainder of the original dataframe
   # First requires creating join vector for the by argument in inner_join

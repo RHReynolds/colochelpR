@@ -414,7 +414,7 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
     colnames(df2_overlap_harmonised) <- stringr::str_c(colnames(df2_overlap_harmonised), "_2")
 
     df1_df2_joined <-
-      inner_join(df1_overlap_harmonised, df2_overlap_harmonised, by = c("SNP_1" = "SNP_2")) %>%
+      dplyr::inner_join(df1_overlap_harmonised, df2_overlap_harmonised, by = c("SNP_1" = "SNP_2")) %>%
       dplyr::rename(SNP = SNP_1)
 
     return(df1_df2_joined)
@@ -425,7 +425,7 @@ join_coloc_datasets <- function(df1, df2, harmonise = F){
   colnames(df2_overlap) <- stringr::str_c(colnames(df2_overlap), "_2")
 
   df1_df2_joined <-
-    inner_join(df1_overlap, df2_overlap, by = c("SNP_1" = "SNP_2")) %>%
+    dplyr::inner_join(df1_overlap, df2_overlap, by = c("SNP_1" = "SNP_2")) %>%
     dplyr::rename(SNP = SNP_1)
 
   return(df1_df2_joined)
@@ -587,6 +587,8 @@ run_coloc_abf <- function(df1_df2_joined, df1_type, df1_beta_or_pval, df2_type, 
 
 }
 
+#' @importFrom tidyselect contains
+
 annotate_coloc_results <- function(coloc_results, df1_df2_joined, annotate_signif_SNP_df1_df2 = F,
                                    key_cols, df_1_name, df_2_name, df1_path, df2_path){
 
@@ -606,7 +608,7 @@ annotate_coloc_results <- function(coloc_results, df1_df2_joined, annotate_signi
     coloc_results[["results"]] %>%
     dplyr::filter(SNP.PP.H4 == max(SNP.PP.H4)) %>%
     dplyr::select(snp, SNP.PP.H4) %>%
-    left_join(df1_df2_joined, by = c("snp" = "SNP"))
+    dplyr::left_join(df1_df2_joined, by = c("snp" = "SNP"))
 
   if(annotate_signif_SNP_df1_df2 == T){
 
@@ -615,12 +617,12 @@ annotate_coloc_results <- function(coloc_results, df1_df2_joined, annotate_signi
     coloc_results[["signif_df1_SNP"]] <-
       df1_df2_joined %>%
       dplyr::filter(as.numeric(p.value_1) == min(as.numeric(p.value_1))) %>%
-      dplyr::select(SNP, contains("_1"))
+      dplyr::select(SNP, tidyselect::contains("_1"))
 
     coloc_results[["signif_df2_SNP"]] <-
       df1_df2_joined %>%
       dplyr::filter(as.numeric(p.value_2) == min(as.numeric(p.value_2))) %>%
-      dplyr::select(SNP, contains("_2"))
+      dplyr::select(SNP, tidyselect::contains("_2"))
 
   }
 
