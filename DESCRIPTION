@@ -2,18 +2,20 @@ Package: colochelpR
 Title: `colochelpR` is a home for helper functions for executing coloc
 Version: 0.99.2
 Authors@R: 
+    c(
     person(given = "David",
            family = "Zhang",
            role = c("aut"),
-           email = "dzhang32@gmail.com")
+           email = "dyzhang32@gmail.com"),
     person(given = "Regina",
            family = "Reynolds",
            role = c("cre", "ctb"),
-           email = "regina.reynolds.16@ucl.ac.uk")
+           email = "regina.reynolds.16@ucl.ac.uk"),
     person(given = "Alejandro",
-           family = "Martinez Carrasco",
+           family = "Martinez",
            role = c("ctb"),
-           email = "alejandro.carrasco.20@ucl.ac.uk")       
+           email = "alejandro.carrasco.20@ucl.ac.uk")
+    )
 Description: The purpose of this package was to develop wrapper functions 
   for execution of coloc for internal/collaborator use. As such, it is considered 
   an experimental/dormant package.
@@ -35,4 +37,6 @@ Imports:
     purrr,
     magrittr,
     IRanges,
-    ggpubr
+    ggpubr,
+    S4Vectors,
+    tidyselect
