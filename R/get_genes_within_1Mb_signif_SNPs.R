@@ -13,6 +13,8 @@
 #'   chromosome name in GWAS dataframe.
 #' @param BP_column chr. Name of column (in quotation marks) containing basepair
 #'   position in GWAS dataframe.
+#' @param pvalue_threshold num. P-value threshold for significance. Default
+#'   value is 5e-8.
 #' @param mart int. Specify genome build.
 #'
 #' @importFrom S4Vectors subjectHits
@@ -24,6 +26,7 @@ get_genes_within_1Mb_of_signif_SNPs <- function(GWAS,
                                                 pvalue_column,
                                                 CHR_column,
                                                 BP_column,
+                                                pvalue_threshold = 5e-8,
                                                 mart = 38){
   # tidy evaluation
   pvalue_column_var <- rlang::sym(pvalue_column)
@@ -32,7 +35,7 @@ get_genes_within_1Mb_of_signif_SNPs <- function(GWAS,
 
   GWAS_signif_SNPs <-
     GWAS %>%
-    dplyr::filter(!!pvalue_column_var <= 5e-8)
+    dplyr::filter(!!pvalue_column_var <= pvalue_threshold)
 
   GWAS_signif_SNPs_max_min_bp <-
     GWAS_signif_SNPs %>%

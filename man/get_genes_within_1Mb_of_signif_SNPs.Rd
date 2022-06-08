@@ -9,6 +9,7 @@ get_genes_within_1Mb_of_signif_SNPs(
   pvalue_column,
   CHR_column,
   BP_column,
+  pvalue_threshold = 5e-08,
   mart = 38
 )
 }
@@ -25,6 +26,9 @@ chromosome name in GWAS dataframe.}
 
 \item{BP_column}{chr. Name of column (in quotation marks) containing basepair
 position in GWAS dataframe.}
+
+\item{pvalue_threshold}{num. P-value threshold for significance. Default
+value is 5e-8.}
 
 \item{mart}{int. Specify genome build.}
 }
